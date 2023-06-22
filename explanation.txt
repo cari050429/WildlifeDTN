@@ -9,9 +9,9 @@ so far:
 -API requests are implemented
 -Database is implemented
 -Django cors-headers implemented and includes the react and the api 
+-permission on the backend are that any authorized user can do get but only superusers can do delete and shit
 
 will change: 
--permissions are currently allow any, this needs to be changed
 -view to get the data will need to be changed with the front end 
 
 

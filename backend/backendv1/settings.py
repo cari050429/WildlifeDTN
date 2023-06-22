@@ -46,20 +46,26 @@ INSTALLED_APPS = [
     'data.apps.DataConfig',#adding the app 
 
     #3rd party 
-    'rest_framework' #added the rest framework 
+    'rest_framework', #added the rest framework 
     'corsheaders', #added the middleware
+    'rest_framework.authtoken',
 ]
 
 REST_FRAMEWORK= {
     'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.AllowAny'
+        'data.permissions.IsSuperuserOrReadOnly',
+        #'data.permissions.IsSuperuserOrReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.Cors.Middleware",  #for the cors
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -68,9 +74,14 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST= (
-    'http://localhost:3000'
-    'http://localhost:8000'
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
 )
+
+
+
 
 ROOT_URLCONF = "backendv1.urls"
 
@@ -138,7 +149,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

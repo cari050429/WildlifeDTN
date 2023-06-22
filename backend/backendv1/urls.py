@@ -8,6 +8,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/',include('data.urls')),
+    path('api-auth/', include('rest_framework.urls')), #switch between user accounts
+
 ]
 
 if settings.DEBUG:#allows you to see the image for debugging purposes, for example http://127.0.0.1:8000/media/data_pictures/kitty.jpeg
