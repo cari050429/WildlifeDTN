@@ -8,24 +8,31 @@ from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import redirect
 from django.http import JsonResponse
 import json 
+from django.views.decorators.csrf import csrf_exempt
+ 
 
+@csrf_exempt
 def login_view(request):
+    permission_classes=permissions.AllowAny
+    authentication_classes=SessionAuthentication
+    print(request.body)
     if request.method =='POST':
-        data=json.loads(request.body)
-        username=data.get('username')
-        password=data.get('password')
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        print(username)
 
-        user=authenticate(request, username=username, password=password)#might need to pass in request, 
+
+        user=authenticate(request=request, username=username, password=password)#might need to pass in request, 
 
         if user is not None:
+            print('Username:')
             login(request, user)
             if user.is_authenticated and user.is_superuser: 
                 return JsonResponse({'message': 'User is autenticated'})
-            elif user.is_authenticated:
+            else:
                 return JsonResponse({'message':'User is authenticated, but not a superuser'})
-            else: 
-                return JsonResponse({'message':'User is not valid'}, status=401)
-    return JsonResponse({'message':'invalid request'},status=400)
+    return JsonResponse({'message':'Either password or username is invalid, try again'},status=400)
 
 
 

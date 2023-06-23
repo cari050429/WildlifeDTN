@@ -28,8 +28,7 @@ SECRET_KEY = "django-insecure-pyo_m&a+yt#$iqexw8u5ud89yy9#h#jj0_hd_v+wg&i59zp^4%
 DEBUG = True
 
 
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,31 +40,32 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
-    #local
-    'data.apps.DataConfig',#adding the app 
 
-    #3rd party 
-    'rest_framework', #added the rest framework 
-    'corsheaders', #added the middleware
+    # local
+    'data.apps.DataConfig',  # adding the app
+
+    # 3rd party
+    'rest_framework',  # added the rest framework
+    'corsheaders',  # added the middleware
     'rest_framework.authtoken',
+
 ]
 
-REST_FRAMEWORK= {
-    'DEFAULT_PERMISSION_CLASSES':[
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
         'data.permissions.IsSuperuserOrReadOnly',
-        #'data.permissions.IsSuperuserOrReadOnly'
+        # 'data.permissions.IsSuperuserOrReadOnly'
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES':[
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -73,14 +73,19 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_WHITELIST= (
-    'http://localhost:3000',
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:3000',
     'http://localhost:8000',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
 )
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+]
 
+CORS_ALLOW_CREDENTIALS=True
 
 
 ROOT_URLCONF = "backendv1.urls"
